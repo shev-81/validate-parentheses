@@ -3,9 +3,9 @@ package validate.parentheses;
 public class ValidateParentheses {
     public static void main(String[] args) {
         // SetUp
-        String str1 = "(()";
+        String str1 = "(()(";
         String str2 = ")()())";
-        String str3 = ")(()())";
+        String str3 = ")(())())";
         String str4 = ")(";
 
         // Run
@@ -32,13 +32,25 @@ public class ValidateParentheses {
                 tmpResult.append(ch);
             }
         }
-        String result = tmpResult.toString();
-        for(int i = 0; open > 0 && i < result.length(); i++) {
-            if(tmpResult.charAt(i) == '('){
-                result = tmpResult.replace(i, i+1, "").toString();
-            }
-            open--;
+        System.out.println(tmpResult);
+        if(open == 0){
+            return tmpResult.toString();
         }
-        return result;
+
+        int wordLength = tmpResult.length();
+        StringBuilder result = new StringBuilder();
+        int close = 0;
+        for (int i = wordLength-1; i > 0; i--) {
+            char ch = tmpResult.charAt(i);
+            if (ch == ')' ) {
+                close++;
+                result.append(ch);
+            }
+            if (ch == '(' && close > 0) {
+                close--;
+                result.append(ch);
+            }
+        }
+        return result.reverse().toString();
     }
 }
