@@ -6,7 +6,7 @@ public class ValidateParentheses {
         String str1 = "(()(";
         String str2 = ")()())";
         String str3 = ")(())())";
-        String str4 = ")(";
+        String str4 = "()(()(((())";
 
         // Run
         String result1 = validate(str1);
@@ -18,39 +18,25 @@ public class ValidateParentheses {
         System.out.println(result3.length() + " - " + result3);
         System.out.println(result4.length() + " - " + result4);
     }
-    private static String validate(String str) {
-        int open = 0;
-        StringBuilder tmpResult = new StringBuilder();
-        for (int i = 0; i < str.length(); i ++) {
-            char ch = str.charAt(i);
-            if (ch == '(') {
-                open++;
-                tmpResult.append(ch);
-            }
-            if (ch == ')' && open > 0) {
-                open--;
-                tmpResult.append(ch);
-            }
-        }
-        System.out.println(tmpResult);
-        if(open == 0){
-            return tmpResult.toString();
-        }
 
-        int wordLength = tmpResult.length();
-        StringBuilder result = new StringBuilder();
-        int close = 0;
-        for (int i = wordLength-1; i > 0; i--) {
-            char ch = tmpResult.charAt(i);
-            if (ch == ')' ) {
-                close++;
-                result.append(ch);
+    static String validate(String input){
+        StringBuilder str = new StringBuilder();
+        int closed = 0;
+        int open = 0;
+        for (int i = 0; i < input.length(); i++) if (input.charAt(i) == ')') closed++;
+        for (int i = 0; i < input.length(); i++){
+            if (input.charAt(i) == '(' && open < closed){
+                str.append(input.charAt(i));
+                open++;
             }
-            if (ch == '(' && close > 0) {
-                close--;
-                result.append(ch);
+            if (input.charAt(i) == ')'){
+                if (open > 0){
+                    str.append(input.charAt(i));
+                    open--;
+                }
+                closed--;
             }
         }
-        return result.reverse().toString();
+        return str.toString();
     }
 }
